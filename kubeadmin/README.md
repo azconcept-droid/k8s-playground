@@ -56,3 +56,5 @@
     ```
     kubectl apply -f deploy.yaml
     ```
+Output:
+![deployment output image](./image.png)
