@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: central-api
+  name: central-api
+  namespace: abiapay
+spec:
+  replicas: 25
+  selector:
+    matchLabels:
+      app: central-api
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: central-api
+    spec:
+      containers:
+      - image: $CONTAINER_IMAGE
+        name: abia-central-api
+        resources: {}
+        envFrom:
+        - configMapRef:
+            name: central-env
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 2
+          failureThreshold: 3
+      imagePullSecrets:
+      - name: regcred
+status: {}
